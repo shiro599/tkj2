@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Absensi Murid</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-800 font-sans min-h-screen flex flex-col items-center p-6">
+  <h1 class="text-3xl font-bold text-center mb-6">Form Absensi Murid</h1>
+  <div class="w-full max-w-xl bg-white shadow-md border rounded-xl p-6">
+    <form id="absenMuridForm" class="space-y-4">
+      <div>
+        <label for="namaMurid" class="block font-medium mb-1">Nama Lengkap</label>
+        <input type="text" id="namaMurid" required class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+      <div>
+        <label for="asalSekolah" class="block font-medium mb-1">Asal Sekolah</label>
+        <input type="text" id="asalSekolah" required class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+      <div>
+        <label for="kelas" class="block font-medium mb-1">Kelas</label>
+        <select id="kelas" required class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Pilih kelas</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+        </select>
+      </div>
+      <button type="submit" class="w-full bg-gray-800 text-white font-semibold py-2 rounded hover:bg-gray-900 transition">Simpan Absensi</button>
+    </form>
+  </div>
+  <div class="mt-10 w-full max-w-2xl">
+    <h2 class="text-xl font-semibold mb-4 text-center">Data Absensi Murid</h2>
+    <table class="w-full text-left border border-gray-200 rounded overflow-hidden">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="py-2 px-4 border-b">No</th>
+          <th class="py-2 px-4 border-b">Nama</th>
+          <th class="py-2 px-4 border-b">Asal Sekolah</th>
+          <th class="py-2 px-4 border-b">Kelas</th>
+        </tr>
+      </thead>
+      <tbody id="tabelAbsensiMurid" class="bg-white"></tbody>
+    </table>
+  </div>
+  <script>
+    const formMurid = document.getElementById('absenMuridForm');
+    const tabelMurid = document.getElementById('tabelAbsensiMurid');
+    let noMurid = 1;
+    formMurid.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const nama = document.getElementById('namaMurid').value.trim();
+      const sekolah = document.getElementById('asalSekolah').value.trim();
+      const kelas = document.getElementById('kelas').value;
+      if (!nama || !sekolah || !kelas) return;
+      const row = document.createElement('tr');
+      row.innerHTML = `<td class="py-2 px-4 border-b">${noMurid++}</td><td class="py-2 px-4 border-b">${nama}</td><td class="py-2 px-4 border-b">${sekolah}</td><td class="py-2 px-4 border-b">${kelas}</td>`;
+      tabelMurid.appendChild(row);
+      formMurid.reset();
+    });
+  </script>
+</body>
+</html>

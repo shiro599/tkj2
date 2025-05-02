@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expo SMKN 3 Payakumbuh</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 1s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col items-center justify-center text-center px-4">
+
+  <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-8 fade-in">
+    Selamat Datang di Expo SMKN 3 Payakumbuh
+  </h1>
+
+  <div id="formAbsensi" class="w-full max-w-xl bg-white shadow-md border rounded-xl p-6">
+    <h2 class="text-3xl font-bold text-center mb-6">Form Absensi</h2>
+    <form id="absenForm" class="space-y-4">
+      <div>
+        <label for="tipe" class="block font-medium mb-1">Absensi Sebagai</label>
+        <select id="tipe" required class="w-full border border-gray-300 rounded px-4 py-2">
+          <option value="">Pilih</option>
+          <option value="murid">Murid</option>
+          <option value="guru">Guru</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="nama" class="block font-medium mb-1">Nama Lengkap</label>
+        <input type="text" id="nama" required class="w-full border border-gray-300 rounded px-4 py-2" />
+      </div>
+
+      <div>
+        <label for="instansi" class="block font-medium mb-1">Asal Sekolah / Instansi</label>
+        <input type="text" id="instansi" required class="w-full border border-gray-300 rounded px-4 py-2" />
+      </div>
+
+      <div id="kelasDiv">
+        <label for="kelas" class="block font-medium mb-1">Kelas</label>
+        <select id="kelas" class="w-full border border-gray-300 rounded px-4 py-2">
+          <option value="">Pilih Kelas</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+        </select>
+      </div>
+
+      <button type="submit" class="w-full bg-gray-800 text-white font-semibold py-2 rounded">Kirim Absensi</button>
+      <p class="text-green-600 mt-4 hidden" id="successMsg">Data berhasil dikirim!</p>
+    </form>
+  </div>
+
+  <footer class="mt-12 text-gray-500 text-sm">
+    &copy; 2025 SMKN 3 Payakumbuh. All rights reserved.
+  </footer>
+
+  <button id="adminBtn" class="fixed bottom-6 right-6 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700">
+    Admin
+  </button>
+
+  <div id="adminModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow p-6 w-80 text-left">
+      <h3 class="text-xl font-bold mb-4">Masukkan Password</h3>
+      <input type="password" id="adminPassword" placeholder="Password" class="w-full border px-3 py-2 rounded mb-4" />
+      <div class="flex justify-end space-x-2">
+        <button id="batalBtn" class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">Batal</button>
+        <button id="submitPassword" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Masuk</button>
+      </div>
+      <p id="errorMsg" class="text-red-500 text-sm mt-2 hidden">Password salah!</p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("absenForm");
+    const tipe = document.getElementById("tipe");
+    const kelasDiv = document.getElementById("kelasDiv");
+    const successMsg = document.getElementById("successMsg");
+
+    tipe.addEventListener("change", () => {
+      kelasDiv.style.display = tipe.value === "murid" ? "block" : "none";
+    });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const jenis = tipe.value;
+      const nama = document.getElementById("nama").value.trim();
+      const instansi = document.getElementById("instansi").value.trim();
+      const kelas = document.getElementById("kelas").value;
+
+      if (!jenis || !nama || !instansi || (jenis === "murid" && !kelas)) {
+        alert("Mohon lengkapi semua data!");
+        return;
+      }
+
+      const entry = { nama, instansi, kelas: kelas || "-" };
+      const key = jenis === "murid" ? "absensiMurid" : "absensiGuru";
+      let data = JSON.parse(localStorage.getItem(key) || "[]");
+      data.push(entry);
+      localStorage.setItem(key, JSON.stringify(data));
+      form.reset();
+      kelasDiv.style.display = "none";
+      successMsg.classList.remove("hidden");
+
+      setTimeout(() => {
+        successMsg.classList.add("hidden");
+      }, 3000);
+    });
+
+    const adminBtn = document.getElementById("adminBtn");
+    const adminModal = document.getElementById("adminModal");
+    const batalBtn = document.getElementById("batalBtn");
+    const submitBtn = document.getElementById("submitPassword");
+    const passwordInput = document.getElementById("adminPassword");
+    const errorMsg = document.getElementById("errorMsg");
+    const passwordBenar = "KhZrzHUMK@BaJT6";
+
+    adminBtn.addEventListener("click", () => {
+      adminModal.classList.remove("hidden");
+      passwordInput.value = "";
+      errorMsg.classList.add("hidden");
+    });
+
+    batalBtn.addEventListener("click", () => {
+      adminModal.classList.add("hidden");
+    });
+
+    submitBtn.addEventListener("click", () => {
+      if (passwordInput.value === passwordBenar) {
+        localStorage.setItem("adminLogin", "true");
+        window.location.href = "admin.html";
+      } else {
+        errorMsg.classList.remove("hidden");
+      }
+    });
+  </script>
+</body>
+</html>

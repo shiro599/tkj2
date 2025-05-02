@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Absensi - Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <h1 class="text-3xl font-bold mb-6 text-center">Data Absensi</h1>
+
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold mb-2">Absensi Murid</h2>
+    <table class="min-w-full bg-white rounded shadow overflow-hidden">
+      <thead class="bg-gray-200">
+        <tr>
+          <th class="px-4 py-2">Nama</th>
+          <th class="px-4 py-2">Instansi</th>
+          <th class="px-4 py-2">Kelas</th>
+        </tr>
+      </thead>
+      <tbody id="muridTable"></tbody>
+    </table>
+  </div>
+
+  <div>
+    <h2 class="text-xl font-semibold mb-2">Absensi Guru</h2>
+    <table class="min-w-full bg-white rounded shadow overflow-hidden">
+      <thead class="bg-gray-200">
+        <tr>
+          <th class="px-4 py-2">Nama</th>
+          <th class="px-4 py-2">Instansi</th>
+        </tr>
+      </thead>
+      <tbody id="guruTable"></tbody>
+    </table>
+  </div>
+
+  <script>
+    function loadData(key, targetId, isMurid) {
+      const data = JSON.parse(localStorage.getItem(key) || "[]");
+      const tableBody = document.getElementById(targetId);
+      tableBody.innerHTML = "";
+
+      data.forEach(entry => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td class="border px-4 py-2">${entry.nama}</td>
+          <td class="border px-4 py-2">${entry.instansi}</td>
+          ${isMurid ? `<td class="border px-4 py-2">${entry.kelas}</td>` : ""}
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    loadData("absensiMurid", "muridTable", true);
+    loadData("absensiGuru", "guruTable", false);
+  </script>
+</body>
+</html>

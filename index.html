@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Absensi Expo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-xl font-bold mb-4">Formulir Absensi Expo</h1>
+    <form id="absenForm" class="space-y-4">
+      <select id="tipe" class="w-full border p-2 rounded" required>
+        <option value="">Pilih tipe</option>
+        <option value="murid">Murid</option>
+        <option value="guru">Guru</option>
+      </select>
+      <input type="text" id="nama" placeholder="Nama Lengkap" class="w-full border p-2 rounded" required />
+      <input type="text" id="instansi" placeholder="Asal Sekolah / Instansi" class="w-full border p-2 rounded" required />
+      <div id="kelasDiv" class="hidden">
+        <input type="text" id="kelas" placeholder="Kelas" class="w-full border p-2 rounded" />
+      </div>
+      <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded">Kirim</button>
+    </form>
+    <p id="successMsg" class="hidden mt-4 text-green-600 font-semibold">Data berhasil dikirim!</p>
+    <button id="adminBtn" class="mt-6 text-blue-600 underline">Login Admin</button>
+  </div>
+
+  <div id="adminModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white p-6 rounded shadow-lg">
+      <h2 class="text-lg font-semibold mb-2">Masukkan Password Admin</h2>
+      <input type="password" id="adminPassword" class="w-full border p-2 rounded mb-4" />
+      <div class="text-red-600 hidden mb-2" id="errorMsg">Password salah!</div>
+      <div class="flex justify-end gap-2">
+        <button id="batalBtn" class="px-3 py-1 bg-gray-300 rounded">Batal</button>
+        <button id="submitPassword" class="px-3 py-1 bg-blue-600 text-white rounded">Masuk</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

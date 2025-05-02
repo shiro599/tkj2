@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Data Absensi</title>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKn6AnyFBAVKIZW0hkdUl2rxRPKuEg_uE",
+            authDomain: "projects-tkj.firebaseapp.com",
+            databaseURL: "https://projects-tkj-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "projects-tkj",
+            storageBucket: "projects-tkj.appspot.com",
+            messagingSenderId: "1068028451955",
+            appId: "1:1068028451955:web:3b157a492ddcb062199e06",
+            measurementId: "G-4Y9REYFPCN"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        function tampilkanData() {
+            const guruRef = ref(database, 'absensi/guru');
+            const siswaRef = ref(database, 'absensi/siswa');
+            const guruList = document.getElementById('guruList');
+            const siswaList = document.getElementById('siswaList');
+
+            onValue(guruRef, (snapshot) => {
+                guruList.innerHTML = '';
+                snapshot.forEach((child) => {
+                    const data = child.val();
+                    const item = document.createElement('li');
+                    item.textContent = `${data.nama} - ${data.mapel}`;
+                    guruList.appendChild(item);
+                });
+            });
+
+            onValue(siswaRef, (snapshot) => {
+                siswaList.innerHTML = '';
+                snapshot.forEach((child) => {
+                    const data = child.val();
+                    const item = document.createElement('li');
+                    item.textContent = `${data.nama} - ${data.kelas} - ${data.asal}`;
+                    siswaList.appendChild(item);
+                });
+            });
+        }
+
+        window.hapusSemua = function() {
+            if (confirm("Yakin ingin menghapus semua data?")) {
+                remove(ref(database, 'absensi/guru'));
+                remove(ref(database, 'absensi/siswa'));
+                alert("Semua data berhasil dihapus.");
+            }
+        };
+
+        window.onload = tampilkanData;
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen p-8">
+    <h1 class="text-2xl font-semibold mb-4">Data Absensi Expo SMKN 3 Payakumbuh</h1>
+    <h2 class="text-xl font-semibold mt-6 mb-2">Guru</h2>
+    <ul id="guruList" class="list-disc pl-6 space-y-1"></ul>
+    <h2 class="text-xl font-semibold mt-6 mb-2">Siswa</h2>
+    <ul id="siswaList" class="list-disc pl-6 space-y-1"></ul>
+    <button onclick="hapusSemua()" class="bg-red-600 hover:bg-red-500 py-2 px-4 rounded-xl mt-8">Hapus Semua Data</button>
+</body>
+</html>

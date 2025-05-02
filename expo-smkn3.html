@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -66,7 +65,25 @@
     &copy; 2025 SMKN 3 Payakumbuh. All rights reserved.
   </footer>
 
-  <!-- JavaScript -->
+  <!-- Tombol Admin -->
+  <button id="adminBtn" class="fixed bottom-6 right-6 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700">
+    Admin
+  </button>
+
+  <!-- Modal Password -->
+  <div id="adminModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow p-6 w-80 text-left">
+      <h3 class="text-xl font-bold mb-4">Masukkan Password</h3>
+      <input type="password" id="adminPassword" placeholder="Password" class="w-full border px-3 py-2 rounded mb-4" />
+      <div class="flex justify-end space-x-2">
+        <button id="batalBtn" class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">Batal</button>
+        <button id="submitPassword" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Masuk</button>
+      </div>
+      <p id="errorMsg" class="text-red-500 text-sm mt-2 hidden">Password salah!</p>
+    </div>
+  </div>
+
+  <!-- Script -->
   <script>
     const form = document.getElementById("absenForm");
     const tipe = document.getElementById("tipe");
@@ -94,6 +111,33 @@
       form.reset();
       kelasDiv.style.display = "none";
       successMsg.classList.remove("hidden");
+    });
+
+    // Admin modal logic
+    const adminBtn = document.getElementById("adminBtn");
+    const adminModal = document.getElementById("adminModal");
+    const batalBtn = document.getElementById("batalBtn");
+    const submitBtn = document.getElementById("submitPassword");
+    const passwordInput = document.getElementById("adminPassword");
+    const errorMsg = document.getElementById("errorMsg");
+    const passwordBenar = "KhZrzHUMK@BaJT6";
+
+    adminBtn.addEventListener("click", () => {
+      adminModal.classList.remove("hidden");
+      passwordInput.value = "";
+      errorMsg.classList.add("hidden");
+    });
+
+    batalBtn.addEventListener("click", () => {
+      adminModal.classList.add("hidden");
+    });
+
+    submitBtn.addEventListener("click", () => {
+      if (passwordInput.value === passwordBenar) {
+        window.location.href = "admin.html";
+      } else {
+        errorMsg.classList.remove("hidden");
+      }
     });
   </script>
 </body>

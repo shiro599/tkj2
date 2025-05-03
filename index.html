@@ -8,9 +8,30 @@
   <style>
     .fade-slide { animation: fadeSlide 1s ease forwards; opacity: 0; transform: translateY(20px); }
     @keyframes fadeSlide { to { opacity: 1; transform: translateY(0); } }
-    .notif { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 1rem 2rem; border-radius: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.5); z-index: 1000; }
+    .notif {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 1rem 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      z-index: 1000;
+      background-color: #4caf50; /* default hijau */
+      transition: opacity 0.3s ease;
+    }
+    .notif.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
     @keyframes fadeSlideModal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     .animate-fadeSlide { animation: fadeSlideModal 0.5s ease forwards; }
+    #modalAdmin {
+      z-index: 2000;
+    }
+    #modalAdmin.hidden {
+      display: none;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white min-h-screen flex flex-col justify-center items-center font-sans">
@@ -60,7 +81,7 @@
   </button>
 
   <!-- MODAL ADMIN -->
-  <div id="modalAdmin" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+  <div id="modalAdmin" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden">
     <div class="bg-gray-800 rounded-2xl p-6 w-80 shadow-2xl text-center space-y-4 animate-fadeSlide">
       <h2 class="text-xl font-bold">Login Admin</h2>
       <input type="password" id="inputAdminPass" placeholder="Masukkan Password" class="w-full px-4 py-2 rounded-xl bg-gray-700 text-white focus:outline-none">
@@ -72,8 +93,7 @@
   </div>
 
   <!-- NOTIFIKASI -->
-  <!-- tambahkan semua warna agar tailwind tidak membuangnya -->
-  <div id="notif" class="notif hidden text-center text-white bg-green-600 bg-red-600"></div>
+  <div id="notif" class="notif hidden text-center text-white"></div>
 
   <script>
     const btnGuru = document.getElementById('btnGuru');
@@ -91,8 +111,7 @@
 
     function showNotif(text, color) {
       notif.textContent = text;
-      notif.classList.remove('bg-green-600', 'bg-red-600');
-      notif.classList.add(bg-${color}-600);
+      notif.style.backgroundColor = color === 'green' ? '#4caf50' : '#f44336';
       notif.classList.remove('hidden');
       setTimeout(() => notif.classList.add('hidden'), 3000);
     }
@@ -107,23 +126,23 @@
       formGuru.classList.add('hidden');
     });
 
-    formGuru.addEventListener('submit', function(e) {
+    formGuru.addEventListener('submit', (e) => {
       e.preventDefault();
       const kode = document.getElementById('kodeGuru').value.trim();
       if (kode === kodeBenar) {
         showNotif('Data Guru berhasil dikirim!', 'green');
-        this.reset();
+        formGuru.reset();
       } else {
         showNotif('Kode salah! Cek ke panitia.', 'red');
       }
     });
 
-    formSiswa.addEventListener('submit', function(e) {
+    formSiswa.addEventListener('submit', (e) => {
       e.preventDefault();
       const kode = document.getElementById('kodeSiswa').value.trim();
       if (kode === kodeBenar) {
         showNotif('Data Siswa berhasil dikirim!', 'green');
-        this.reset();
+        formSiswa.reset();
       } else {
         showNotif('Kode salah! Cek ke panitia.', 'red');
       }

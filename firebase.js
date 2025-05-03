@@ -1,0 +1,1 @@
+var firebaseConfig = {/* Your Firebase Config */}; firebase.initializeApp(firebaseConfig); var database = firebase.database();

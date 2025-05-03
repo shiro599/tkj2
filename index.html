@@ -1,110 +1,123 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Absensi Expo SMKN 3 Payakumbuh</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @keyframes fadeSlide {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-    .fade-slide {
-      animation: fadeSlide 0.5s ease forwards;
-    }
-    .notif {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 1rem;
-      border-radius: 0.75rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-      z-index: 100;
-      background-color: #4ade80;
-      color: white;
-      transition: opacity 0.3s ease;
-    }
-    .notif.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
+    .fade-slide { animation: fadeSlide 1s ease forwards; opacity: 0; transform: translateY(20px); }
+    @keyframes fadeSlide { to { opacity: 1; transform: translateY(0); } }
+    .notif { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 1rem 2rem; border-radius: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.5); z-index: 1000; }
+    @keyframes fadeSlideModal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fadeSlide { animation: fadeSlideModal 0.5s ease forwards; }
   </style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center space-y-8">
-  <h1 class="text-3xl font-bold">Selamat Datang di Absensi Expo SMKN 3 Payakumbuh</h1>
+<body class="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white min-h-screen flex flex-col justify-center items-center font-sans">  <!-- HEADER -->  <div class="text-center mb-8 fade-slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Google_Gemini_logo.svg/2048px-Google_Gemini_logo.svg.png" alt="Gemini Logo" class="w-16 mx-auto mb-4">
+    <h1 class="text-3xl md:text-5xl font-bold mb-2">Selamat Datang di Absensi Expo</h1>
+    <p class="text-lg text-gray-300">SMKN 3 Payakumbuh</p>
+  </div>  <!-- BUTTONS -->  <div class="flex gap-4 mb-8 fade-slide">
+    <button id="btnGuru" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl shadow-lg transition-all duration-300">Masuk sebagai Guru</button>
+    <button id="btnSiswa" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl shadow-lg transition-all duration-300">Masuk sebagai Siswa</button>
+  </div>  <!-- FORM GURU -->  <form id="formGuru" class="w-80 bg-gray-800 p-6 rounded-2xl shadow-xl space-y-4 hidden fade-slide">
+    <h2 class="text-xl font-semibold text-center mb-2">Form Absensi Guru</h2>
+    <input type="text" id="namaGuru" placeholder="Nama Lengkap" class="w-full px-4 py-2 rounded-xl bg-gray-700 text-white focus:outline-none">
+    <input type="text" id="mapelGuru" placeholder="Mata Pelajaran" class="w-full px-4 py-2 rounded-xl bg-gray-700 text-white focus:outline-none">
+    <input type="text" id="kodeGuru" placeholder="Masukkan Kode" class="w-full px-4 py-2 rounded-xl bg-gray-700 text-white focus:outline-none">
+    <button type="submit" class="bg-blue-500 hover:bg-blue-600 w-full py-2 rounded-xl shadow-md transition">Kirim</button>
+  </form>  <!-- FORM SISWA -->  <form id="formSiswa" class="w-80 bg-gray-800 p-6 rounded-2xl shadow-xl space-y-4 hidden fade-slide">
+    <h2 class="text-xl font-semibold text-center mb-2">Form Absensi Siswa</h2>
+    <input type="text" id="namaSiswa" placeholder="Nama Lengkap" class="w-full px-4 py-2 rounded-xl bg-gray-700 text-white focus:outline-none">
+    <input type="text" id="kelasSiswa" placeholder="Kelas" class="w-full px-4 py-2 rounded-xl bg-gray-700 text-white focus:outline-none">
+    <input type="text" id="asalSiswa" placeholder="Asal Sekolah" class="w-full px-4 py-2 rounded-xl bg-gray-700 text-white focus:outline-none">
+    <input type="text" id="kodeSiswa" placeholder="Masukkan Kode" class="w-full px-4 py-2 rounded-xl bg-gray-700 text-white focus:outline-none">
+    <button type="submit" class="bg-green-500 hover:bg-green-600 w-full py-2 rounded-xl shadow-md transition">Kirim</button>
+  </form>  <!-- FOOTER -->  <p class="mt-12 text-sm text-gray-400 fade-slide w-full text-center">
+    Powered by <span class="text-blue-400 font-bold">Gemini</span> | Created by <span class="font-semibold">TKJ Class XI SMKN 3 Payakumbuh</span>
+  </p>  <!-- ADMIN BUTTON -->  <button id="btnAdmin" class="fixed bottom-4 right-4 bg-gray-700 hover:bg-gray-600 text-white p-3 rounded-full shadow-lg transition">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12c2.28 0 4-1.72 4-4s-1.72-4-4-4-4 1.72-4 4 1.72 4 4 4zM4 20v-1c0-2.67 5.33-4 8-4s8 1.33 8 4v1H4z" />
+    </svg>
+  </button>  <!-- MODAL ADMIN -->  <div id="modalAdmin" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+    <div class="bg-gray-800 rounded-2xl p-6 w-80 shadow-2xl text-center space-y-4 animate-fadeSlide">
+      <h2 class="text-xl font-bold">Login Admin</h2>
+      <input type="password" id="inputAdminPass" placeholder="Masukkan Password" class="w-full px-4 py-2 rounded-xl bg-gray-700 text-white focus:outline-none">
+      <div class="flex gap-4 justify-center">
+        <button id="submitAdmin" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl shadow transition">Masuk</button>
+        <button id="cancelAdmin" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-xl shadow transition">Batal</button>
+      </div>
+    </div>
+  </div>  <!-- NOTIFIKASI -->  <div id="notif" class="notif hidden text-center text-white"></div>  <script>
+    const btnGuru = document.getElementById('btnGuru');
+    const btnSiswa = document.getElementById('btnSiswa');
+    const formGuru = document.getElementById('formGuru');
+    const formSiswa = document.getElementById('formSiswa');
+    const notif = document.getElementById('notif');
+    const kodeBenar = "214356";
+    const adminPass = "admin123";
 
-  <div class="flex space-x-4">
-    <button onclick="showForm('guru')" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-xl shadow-lg">Masuk sebagai Guru</button>
-    <button onclick="showForm('siswa')" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-xl shadow-lg">Masuk sebagai Siswa</button>
-  </div>
+    const modalAdmin = document.getElementById('modalAdmin');
+    const inputAdminPass = document.getElementById('inputAdminPass');
+    const submitAdmin = document.getElementById('submitAdmin');
+    const cancelAdmin = document.getElementById('cancelAdmin');
 
-  <form id="formGuru" class="hidden flex flex-col space-y-4 fade-slide w-80">
-    <input type="text" id="namaGuru" placeholder="Nama Lengkap" class="p-2 rounded bg-gray-800">
-    <input type="text" id="mapel" placeholder="Mata Pelajaran" class="p-2 rounded bg-gray-800">
-    <button type="button" onclick="submitGuru()" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-xl shadow-lg">Kirim</button>
-  </form>
-
-  <form id="formSiswa" class="hidden flex flex-col space-y-4 fade-slide w-80">
-    <input type="text" id="namaSiswa" placeholder="Nama Lengkap" class="p-2 rounded bg-gray-800">
-    <input type="text" id="kelas" placeholder="Kelas" class="p-2 rounded bg-gray-800">
-    <input type="text" id="asalSekolah" placeholder="Asal Sekolah" class="p-2 rounded bg-gray-800">
-    <button type="button" onclick="submitSiswa()" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-xl shadow-lg">Kirim</button>
-  </form>
-
-  <div id="notif" class="notif hidden">Data berhasil dikirim!</div>
-
-  <script>
-    const firebaseConfig = {
-      databaseURL: "https://YOUR_FIREBASE_URL"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-
-    function showForm(type) {
-      document.getElementById('formGuru').classList.add('hidden');
-      document.getElementById('formSiswa').classList.add('hidden');
-      if (type === 'guru') {
-        document.getElementById('formGuru').classList.remove('hidden');
-      } else {
-        document.getElementById('formSiswa').classList.remove('hidden');
-      }
-    }
-
-    function showNotif() {
-      const notif = document.getElementById('notif');
+    function showNotif(text, color) {
+      notif.textContent = text;
+      notif.className = notif bg-${color}-600;
       notif.classList.remove('hidden');
       setTimeout(() => notif.classList.add('hidden'), 3000);
     }
 
-    function submitGuru() {
-      const nama = document.getElementById('namaGuru').value;
-      const mapel = document.getElementById('mapel').value;
-      if (nama && mapel) {
-        database.ref('guru').push({ nama, mapel });
-        document.getElementById('formGuru').reset();
-        showNotif();
-      } else {
-        alert('Lengkapi data!');
-      }
-    }
+    btnGuru.onclick = () => {
+      formGuru.classList.remove('hidden');
+      formSiswa.classList.add('hidden');
+    };
 
-    function submitSiswa() {
-      const nama = document.getElementById('namaSiswa').value;
-      const kelas = document.getElementById('kelas').value;
-      const asal = document.getElementById('asalSekolah').value;
-      if (nama && kelas && asal) {
-        database.ref('siswa').push({ nama, kelas, asal });
-        document.getElementById('formSiswa').reset();
-        showNotif();
-      } else {
-        alert('Lengkapi data!');
-      }
-    }
-  </script>
+    btnSiswa.onclick = () => {
+      formSiswa.classList.remove('hidden');
+      formGuru.classList.add('hidden');
+    };
 
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-</body>
+    formGuru.onsubmit = (e) => {
+      e.preventDefault();
+      const kode = document.getElementById('kodeGuru').value.trim();
+      if (kode === kodeBenar) {
+        showNotif('Data Guru berhasil dikirim!', 'green');
+        formGuru.reset();
+      } else {
+        showNotif('Kode salah! Cek ke panitia.', 'red');
+      }
+    };
+
+    formSiswa.onsubmit = (e) => {
+      e.preventDefault();
+      const kode = document.getElementById('kodeSiswa').value.trim();
+      if (kode === kodeBenar) {
+        showNotif('Data Siswa berhasil dikirim!', 'green');
+        formSiswa.reset();
+      } else {
+        showNotif('Kode salah! Cek ke panitia.', 'red');
+      }
+    };
+
+    btnAdmin.onclick = () => {
+      modalAdmin.classList.remove('hidden');
+      inputAdminPass.value = '';
+      inputAdminPass.focus();
+    };
+
+    cancelAdmin.onclick = () => {
+      modalAdmin.classList.add('hidden');
+    };
+
+    submitAdmin.onclick = () => {
+      const input = inputAdminPass.value.trim();
+      if (input === adminPass) {
+        window.location.href = "admin.html";
+      } else {
+        modalAdmin.classList.add('hidden');
+        showNotif('Password salah!', 'red');
+      }
+    };
+  </script></body>
 </html>

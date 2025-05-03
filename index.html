@@ -72,7 +72,8 @@
   </div>
 
   <!-- NOTIFIKASI -->
-  <div id="notif" class="notif hidden text-center text-white"></div>
+  <!-- tambahkan semua warna agar tailwind tidak membuangnya -->
+  <div id="notif" class="notif hidden text-center text-white bg-green-600 bg-red-600"></div>
 
   <script>
     const btnGuru = document.getElementById('btnGuru');
@@ -81,7 +82,7 @@
     const formSiswa = document.getElementById('formSiswa');
     const notif = document.getElementById('notif');
     const kodeBenar = "214356";
-    const adminPass = "admin123"; // Ganti password admin kalau mau
+    const adminPass = "admin123";
 
     const modalAdmin = document.getElementById('modalAdmin');
     const inputAdminPass = document.getElementById('inputAdminPass');
@@ -90,7 +91,8 @@
 
     function showNotif(text, color) {
       notif.textContent = text;
-      notif.className = notif bg-${color}-600;
+      notif.classList.remove('bg-green-600', 'bg-red-600');
+      notif.classList.add(bg-${color}-600);
       notif.classList.remove('hidden');
       setTimeout(() => notif.classList.add('hidden'), 3000);
     }
@@ -105,7 +107,7 @@
       formGuru.classList.add('hidden');
     });
 
-    document.getElementById('formGuru').addEventListener('submit', function(e) {
+    formGuru.addEventListener('submit', function(e) {
       e.preventDefault();
       const kode = document.getElementById('kodeGuru').value.trim();
       if (kode === kodeBenar) {
@@ -116,7 +118,7 @@
       }
     });
 
-    document.getElementById('formSiswa').addEventListener('submit', function(e) {
+    formSiswa.addEventListener('submit', function(e) {
       e.preventDefault();
       const kode = document.getElementById('kodeSiswa').value.trim();
       if (kode === kodeBenar) {
